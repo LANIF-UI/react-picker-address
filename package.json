@@ -1,0 +1,65 @@
+{
+  "name": "module-boot",
+  "version": "1.0.0",
+  "description": "react module & component base project",
+  "keywords": [
+    "react",
+    "react-component"
+  ],
+  "homepage": "https://github.com/LANIF-UI/module-boot",
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "assets/*.css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:LANIF-UI/module-boot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LANIF-UI/module-boot/issues"
+  },
+  "license": "MIT",
+  "main": "./lib",
+  "module": "./es",
+  "config": {
+    "port": 8000,
+    "entry": {
+      "module-boot": [
+        "./assets/index.less",
+        "./src/index.js"
+      ]
+    }
+  },
+  "scripts": {
+    "dist": "rc-tools run dist",
+    "build": "rc-tools run build",
+    "gh-pages": "rc-tools run gh-pages",
+    "start": "rc-tools run server",
+    "compile": "rc-tools run compile --babel-runtime",
+    "pub": "rc-tools run pub --babel-runtime",
+    "lint": "rc-tools run lint",
+    "karma": "rc-test run karma",
+    "saucelabs": "rc-test run saucelabs",
+    "test": "rc-test run test",
+    "chrome-test": "rc-test run chrome-test",
+    "coverage": "rc-test run coverage"
+  },
+  "devDependencies": {
+    "expect.js": "~0.3.1",
+    "pre-commit": "1.x",
+    "rc-test": "^6.0.8",
+    "rc-tools": "^7.0.6",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "dependencies": {
+    "babel-runtime": "6.x",
+    "classnames": "^2.2.5",
+    "prop-types": "^15.5.8"
+  },
+  "pre-commit": [
+    "lint"
+  ]
+}
