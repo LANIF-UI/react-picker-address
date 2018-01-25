@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Picker from '../src';
 import '../assets/index.less';
+import { district } from './district';
 
 class Sampleaaa extends React.Component {
   state = {
@@ -26,7 +27,7 @@ class Sampleaaa extends React.Component {
     return (
       <div>
         <input onClick={this.showPicker} placeholder="请选择地区" readOnly />
-        <Picker visible={this.state.visible} onClose={this.hidePicker} />
+        <Picker visible={this.state.visible} onClose={this.hidePicker} dataSource={district} />
       </div>
     );
   }

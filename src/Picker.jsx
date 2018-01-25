@@ -44,14 +44,25 @@ export default class Picker extends PureComponent {
     }
   }
 
+  renderNodes = (dataSource = [], level = 0) => {
+    return dataSource.map(item => {
+      if (item.children) {
+        level ++;
+      }
+    });
+  }
+
   render() {
-    const { className, prefixCls, visible, onClose } = this.props;
+    const { className, prefixCls, visible, onClose, dataSource } = this.props;
+
+    
 
     const classNames = cx(
       prefixCls,
       className,
       { visible }
     );
+
     return (
       <div className={classNames} onTouchStart={this.onClose}>
         <div className={`${prefixCls}-main`}>
@@ -66,12 +77,20 @@ export default class Picker extends PureComponent {
             </ul>
             <span className={`${prefixCls}-main-nav-active`}></span>
           </div>
-          <div className={`${prefixCls}-main-body clearfix`}>
-            <div className={`${prefixCls}-main-body-item`}>
-              <ul>
-                <li className={`${prefixCls}-main-body-item-li`}>北京</li>
-                <li className={`${prefixCls}-main-body-item-li active`}>黑龙江</li>
-              </ul>
+          <div className={`${prefixCls}-main-body`}>
+            <div className="wrap" ref="wrap">
+              <div className={`${prefixCls}-main-body-item`}>
+                <ul>
+                  <li className={`${prefixCls}-main-body-item-li`}>北京</li>
+                  <li className={`${prefixCls}-main-body-item-li active`}>黑龙江</li>
+                </ul>
+              </div>
+              <div className={`${prefixCls}-main-body-item`}>
+                <ul>
+                  <li className={`${prefixCls}-main-body-item-li`}>哈尔滨</li>
+                  <li className={`${prefixCls}-main-body-item-li active`}>牡丹江</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
