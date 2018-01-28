@@ -24,7 +24,7 @@ export default class Picker extends PureComponent {
 
   state = {
     selectedRows: [{}],
-    curIdx: 0
+    curIdx: 0,
   }
 
   componentDidMount() {
@@ -121,7 +121,7 @@ export default class Picker extends PureComponent {
     const wrapStyles = {
       width: `${selectedRows.length * 100}vw`,
     };
-    
+
     if (selectedRows.length === 1) {
       wrapStyles.transform = 'translate3d(0, 0, 0)';
     }
