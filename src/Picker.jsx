@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { setTransform } from './utils';
 
 export default class Picker extends PureComponent {
   htmlElement= document.querySelector('html');
@@ -10,11 +11,21 @@ export default class Picker extends PureComponent {
     visible: PropTypes.bool,
     dataSource: PropTypes.array.isRequired,
     onClose: PropTypes.func,
+    tipText: PropTypes.string,
+    value: PropTypes.array,
+    onChange: PropTypes.func,
   };
 
   static defaultProps = {
     prefixCls: 'picker-address',
+    tipText: '请选择',
+    value: [],
   };
+
+  state = {
+    selectedRows: [{}],
+    curIdx: 0
+  }
 
   componentDidMount() {
     if (this.props.visible) {
@@ -26,7 +37,17 @@ export default class Picker extends PureComponent {
     if (!this.props.visible) {
       this.htmlElement.classList.remove('noscroll');
     } else {
-      this.htmlElement.classList.add('noscroll');
+      if (!this.htmlElement.classList.contains('noscroll')) {
+        this.htmlElement.classList.add('noscroll');
+      }
+
+      const { selectedRows, curIdx } = this.state;
+      setTransform(this.refs.wrap.style, `translate3d(${(1 - selectedRows.length) * 100}vw, 0, 0)`);
+
+      const rect = this.refs.nav.children[curIdx].getBoundingClientRect();
+      this.refs.navline.style.width = `${rect.width}px`;
+      this.refs.navline.style.left = `${rect.left}px`;
+      this.refs.navline.style.bottom = `${this.refs.nav.clientHeight - (this.refs.nav.children[curIdx].offsetTop + 33)}px`;
     }
   }
 
@@ -44,24 +65,66 @@ export default class Picker extends PureComponent {
     }
   }
 
-  renderNodes = (dataSource = [], level = 0) => {
-    return dataSource.map(item => {
-      if (item.children) {
-        level ++;
-      }
+  loadData = () => {
+
+  }
+
+  getNextData = (ds, level = 0) => {
+    const { prefixCls } = this.props;
+    const { selectedRows } = this.state;
+    const row = selectedRows[level] || {};
+
+    return (
+      <div key={level} className={`${prefixCls}-main-body-item`}>
+        <ul>
+          {ds.map((item) => (
+            <li
+              key={item.value}
+              className={
+                cx(`${prefixCls}-main-body-item-li`, { active: row.value === item.value })
+              }
+              onTouchEnd={this.onSelectedRow(item, level)}
+            >{item.title}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
+  onSelectedRow = (item, level) => () => {
+    const { selectedRows } = this.state;
+    if (selectedRows[level] && !selectedRows[level].value) {
+      selectedRows.splice(level, 1, item, {});
+      this.setState({
+        selectedRows: [...selectedRows],
+        curIdx: level + 1,
+      });
+    } else {
+      return;
+    }
+  }
+
+  onSelectedNav = (item, level) => () => {
+    this.setState({
+      curIdx: level,
     });
   }
 
   render() {
-    const { className, prefixCls, visible, onClose, dataSource } = this.props;
-
-    
-
+    const { selectedRows } = this.state;
+    const { className, prefixCls, visible, onClose, dataSource, tipText } = this.props;
     const classNames = cx(
       prefixCls,
       className,
       { visible }
     );
+    const wrapStyles = {
+      width: `${selectedRows.length * 100}vw`,
+    };
+    
+    if (selectedRows.length === 1) {
+      wrapStyles.transform = 'translate3d(0, 0, 0)';
+    }
 
     return (
       <div className={classNames} onTouchStart={this.onClose}>
@@ -71,26 +134,22 @@ export default class Picker extends PureComponent {
             <div className={`${prefixCls}-main-title-close`} onTouchStart={onClose}></div>
           </div>
           <div className={`${prefixCls}-main-nav`}>
-            <ul>
-              <li className={`${prefixCls}-main-nav-item`}>黑龙江</li>
-              <li className={`${prefixCls}-main-nav-item`}>哈尔滨</li>
+            <ul ref="nav">
+              {
+                selectedRows.map((item, index) => (
+                  item.value
+                  ? <li key={index} onTouchEnd={this.onSelectedNav(item, index)} className={`${prefixCls}-main-nav-item`}>{item.title}</li>
+                  : <li key={index} className={`${prefixCls}-main-nav-item`}>{tipText}</li>
+                ))
+              }
             </ul>
-            <span className={`${prefixCls}-main-nav-active`}></span>
+            <span className={`${prefixCls}-main-nav-active`} ref="navline"></span>
           </div>
           <div className={`${prefixCls}-main-body`}>
-            <div className="wrap" ref="wrap">
-              <div className={`${prefixCls}-main-body-item`}>
-                <ul>
-                  <li className={`${prefixCls}-main-body-item-li`}>北京</li>
-                  <li className={`${prefixCls}-main-body-item-li active`}>黑龙江</li>
-                </ul>
-              </div>
-              <div className={`${prefixCls}-main-body-item`}>
-                <ul>
-                  <li className={`${prefixCls}-main-body-item-li`}>哈尔滨</li>
-                  <li className={`${prefixCls}-main-body-item-li active`}>牡丹江</li>
-                </ul>
-              </div>
+            <div className="wrap" ref="wrap" style={wrapStyles}>
+              {
+                selectedRows.map((item, index) => this.getNextData(dataSource, index))
+              }
             </div>
           </div>
         </div>

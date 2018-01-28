@@ -1,11 +1,11 @@
-# module-boot
+# react-picker-address
 自定义模块与组件的基础工程,来自[generator-rc](https://github.com/react-component/generator-rc)
 
 ## 使用
 
 ```
-$ git clone https://github.com/LANIF-UI/module-boot.git
-$ cd module-boot
+$ git clone https://github.com/LANIF-UI/react-picker-address.git
+$ cd react-picker-address
 $ yarn
 $ yarn start
 ```

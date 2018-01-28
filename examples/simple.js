@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import 'module-boot/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Picker from '../src';

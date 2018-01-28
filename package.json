@@ -1,12 +1,12 @@
 {
-  "name": "module-boot",
+  "name": "react-picker-address",
   "version": "1.0.0",
   "description": "react module & component base project",
   "keywords": [
     "react",
     "react-component"
   ],
-  "homepage": "https://github.com/LANIF-UI/module-boot",
+  "homepage": "https://github.com/LANIF-UI/react-picker-address",
   "files": [
     "dist",
     "lib",
@@ -15,10 +15,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:LANIF-UI/module-boot.git"
+    "url": "git@github.com:LANIF-UI/react-picker-address.git"
   },
   "bugs": {
-    "url": "https://github.com/LANIF-UI/module-boot/issues"
+    "url": "https://github.com/LANIF-UI/react-picker-address/issues"
   },
   "license": "MIT",
   "main": "./lib",
@@ -26,7 +26,7 @@
   "config": {
     "port": 8000,
     "entry": {
-      "module-boot": [
+      "react-picker-address": [
         "./assets/index.less",
         "./src/index.js"
       ]
