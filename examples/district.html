@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>district.js - example - react-picker-address@1.0.1</title>
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link href="https://a.alipayobjects.com/normalize.css/3.0.1/normalize.css" rel="stylesheet"/>
+  <style>
+    .highlight pre {
+      padding: .8em 1em;
+      font: 14px/20px Consolas, Monaco, 'Andale Mono', monospace;
+      border: 1px solid #e5e8ec;
+      border-radius: 3px;
+      background-color: #21221d;
+      background-image: -webkit-linear-gradient(#21221d 50%, #272822 50%);
+      background-image: -moz-linear-gradient(#21221d 50%, #272822 50%);
+      background-image: -ms-linear-gradient(#21221d 50%, #272822 50%);
+      background-image: -o-linear-gradient(#21221d 50%, #272822 50%);
+      background-image: linear-gradient(#21221d 50%, #272822 50%);
+      background-size: 40px 40px;
+      background-origin: content-box;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .highlight pre > code {
+      font-family: inherit;
+      direction: ltr;
+      text-align: left;
+      white-space: pre;
+      word-spacing: normal;
+      vertical-align: 2px;
+      display: block;
+      -moz-tab-size: 2;
+      -o-tab-size: 2;
+      tab-size: 2;
+      -webkit-hyphens: none;
+      -moz-hyphens: none;
+      -ms-hyphens: none;
+      hyphens: none;
+      color: #E5E5C2;
+    }
+  </style>
+  <style>
+/*
+
+Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-license.org/
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #23241f;
+  -webkit-text-size-adjust: none;
+}
+
+.hljs,
+.hljs-tag,
+.css .hljs-rule,
+.css .hljs-value,
+.aspectj .hljs-function,
+.css .hljs-function
+.hljs-preprocessor,
+.hljs-pragma {
+  color: #f8f8f2;
+}
+
+.hljs-strongemphasis,
+.hljs-strong,
+.hljs-emphasis {
+  color: #a8a8a2;
+}
+
+.hljs-bullet,
+.hljs-blockquote,
+.hljs-horizontal_rule,
+.hljs-number,
+.hljs-regexp,
+.alias .hljs-keyword,
+.hljs-literal,
+.hljs-hexcolor {
+  color: #ae81ff;
+}
+
+.hljs-code,
+.hljs-title,
+.css .hljs-class,
+.hljs-class .hljs-title:last-child {
+  color: #a6e22e;
+  /*color: #e6db74;*/
+}
+
+.hljs-link_url {
+  font-size: 80%;
+}
+
+.hljs-strong,
+.hljs-strongemphasis {
+  font-weight: bold;
+}
+
+.hljs-emphasis,
+.hljs-strongemphasis,
+.hljs-class .hljs-title:last-child,
+.hljs-typename {
+  font-style: italic;
+}
+
+.hljs-keyword,
+.ruby .hljs-class .hljs-keyword:first-child,
+.ruby .hljs-function .hljs-keyword,
+.hljs-function,
+.hljs-change,
+.hljs-winutils,
+.hljs-flow,
+.nginx .hljs-title,
+.tex .hljs-special,
+.hljs-header,
+.hljs-symbol,
+.hljs-symbol .hljs-string,
+.hljs-tag .hljs-title,
+.hljs-value,
+.alias .hljs-keyword:first-child,
+.css .hljs-tag,
+.css .unit,
+.css .hljs-important {
+  color: #f92672;
+}
+
+.hljs-function .hljs-keyword,
+.hljs-class .hljs-keyword:first-child,
+.hljs-aspect .hljs-keyword:first-child,
+.hljs-constant,
+.hljs-typename,
+.hljs-name,
+.css .hljs-attribute {
+  color: #66d9ef;
+}
+
+.hljs-variable,
+.hljs-params,
+.hljs-class .hljs-title,
+.hljs-aspect .hljs-title {
+  color: #f8f8f2;
+}
+
+.hljs-tag .hljs-value,
+.hljs-string,
+.css .hljs-id,
+.hljs-subst,
+.hljs-type,
+.ruby .hljs-class .hljs-parent,
+.django .hljs-template_tag,
+.django .hljs-variable,
+.smalltalk .hljs-class,
+.django .hljs-filter .hljs-argument,
+.smalltalk .hljs-localvars,
+.smalltalk .hljs-array,
+.hljs-attr_selector,
+.hljs-pseudo,
+.hljs-addition,
+.hljs-stream,
+.hljs-envvar,
+.apache .hljs-tag,
+.apache .hljs-cbracket,
+.tex .hljs-command,
+.hljs-prompt,
+.hljs-link_label,
+.hljs-link_url {
+  color: #e6db74;
+}
+
+.hljs-comment,
+.hljs-annotation,
+.hljs-decorator,
+.hljs-pi,
+.hljs-doctype,
+.hljs-deletion,
+.hljs-shebang,
+.apache .hljs-sqbracket,
+.tex .hljs-formula {
+  color: #75715e;
+}
+
+.coffeescript .javascript,
+.javascript .xml,
+.tex .hljs-formula,
+.xml .javascript,
+.xml .vbscript,
+.xml .css,
+.xml .hljs-cdata,
+.xml .php,
+.php .xml {
+  opacity: 0.5;
+}
+/***********/
+.hljs-attribute{
+  color: #a6e22e;
+}
+/***** node keyword ******/
+.hljs-built_in{
+  color: #3396dc;
+  font-weight: bold;
+}
+  </style>
+  <style>
+    .container {
+      width: 86%;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .header p {
+      color: #666;
+    }
+
+    .example {
+      padding: 20px 0;
+    }
+  </style>
+
+  <script>
+    // Console-polyfill. MIT license.
+    // https://github.com/paulmillr/console-polyfill
+    // Make it safe to do console.log() always.
+    (function (global) {
+      'use strict';
+      global.console = global.console || {};
+      var con = global.console;
+      var prop, method;
+      var empty = {};
+      var dummy = function () {
+      };
+      var properties = 'memory'.split(',');
+      var methods = ('assert,clear,count,debug,dir,dirxml,error,exception,group,' +
+      'groupCollapsed,groupEnd,info,log,markTimeline,profile,profiles,profileEnd,' +
+      'show,table,time,timeEnd,timeline,timelineEnd,timeStamp,trace,warn').split(',');
+      while (prop = properties.pop()) con[prop] = con[prop] || empty;
+      while (method = methods.pop()) con[method] = con[method] || dummy;
+    })(typeof window === 'undefined' ? this : window);
+    // Using `this` for web workers while maintaining compatibility with browser
+    // targeted script loaders such as Browserify or Webpack where the only way to
+    // get to the global object is via `window`.
+  </script>
+  <!--[if lt IE 9]>
+  <script src="https://a.alipayobjects.com/??es5-shim/4.0.5/es5-shim.js,es5-shim/4.0.5/es5-sham.js,html5shiv/3.7.2/src/html5shiv.js"></script>
+  <![endif]-->
+  <script src="https://as.alipayobjects.com/g/component/??modernizr/2.8.3/modernizr.js,fastclick/1.0.6/fastclick.js"></script>
+  <script>
+  if(!window.Promise) {
+    document.writeln('<script src="https://as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"'+'>'+'<'+'/'+'script>');
+  }
+  </script>
+  
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>react-picker-address@1.0.1</h1>
+
+      <p>react mobile address picker component</p>
+    </div>
+    <div class="example" id="__react-content"></div>
+
+    <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint-disable */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> district = [{
+	<span class="hljs-string">"value"</span>: <span class="hljs-string">"123123"</span>,
+	<span class="hljs-string">"title"</span>: <span class="hljs-string">"只有一级"</span>,
+}, {
+	<span class="hljs-string">"value"</span>: <span class="hljs-string">"340000"</span>,
+	<span class="hljs-string">"title"</span>: <span class="hljs-string">"安徽省"</span>,
+	<span class="hljs-string">"children"</span>: [{
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"341500"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"六安市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341522"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"霍邱县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341525"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"霍山县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341502"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"金安区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341524"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"金寨县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341526"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341521"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"寿县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341523"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"舒城县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341503"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"裕安区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"340500"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"马鞍山市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"340506"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"博望区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"341800"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"宣城市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341822"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"广德县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341824"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"绩溪县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"341825"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"旌德县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}]
+}, {
+	<span class="hljs-string">"value"</span>: <span class="hljs-string">"820000"</span>,
+	<span class="hljs-string">"title"</span>: <span class="hljs-string">"澳门特别行政区"</span>,
+	<span class="hljs-string">"children"</span>: [{
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"820100"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"澳门半岛"</span>,
+		<span class="hljs-string">"children"</span>: []
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"820200"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"离岛"</span>,
+		<span class="hljs-string">"children"</span>: []
+	}]
+}, {
+	<span class="hljs-string">"value"</span>: <span class="hljs-string">"110000"</span>,
+	<span class="hljs-string">"title"</span>: <span class="hljs-string">"北京"</span>,
+	<span class="hljs-string">"children"</span>: [{
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"110100"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"北京市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110114"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"昌平区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110105"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"朝阳区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110103"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"崇文区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110115"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"大兴区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110101"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"东城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110111"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"房山区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110106"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"丰台区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110108"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"海淀区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110116"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"怀柔区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110109"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"门头沟区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110228"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"密云县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110117"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"平谷区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110230"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110107"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"石景山区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110113"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"顺义区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110112"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"通州区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110102"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"西城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110104"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"宣武区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"110229"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"延庆县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}]
+}, {
+	<span class="hljs-string">"value"</span>: <span class="hljs-string">"450000"</span>,
+	<span class="hljs-string">"title"</span>: <span class="hljs-string">"广西壮族自治区"</span>,
+	<span class="hljs-string">"children"</span>: [{
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"450500"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"北海市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450502"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"海城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450521"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"合浦县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450522"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450512"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"铁山港区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450503"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"银海区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"451000"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"百色市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451024"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"德保县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451025"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"靖西县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451028"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"乐业县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451027"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"凌云县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451031"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"隆林各族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451026"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"那坡县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451023"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"平果县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451032"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451022"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"田东县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451029"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"田林县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451021"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"田阳县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451030"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"西林县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451002"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"右江区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"451400"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"崇左市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451424"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"大新县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451421"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"扶绥县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451402"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"江州区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451423"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"龙州县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451422"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"宁明县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451481"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"凭祥市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451482"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451425"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"天等县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"450600"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"防城港市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450681"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"东兴市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450603"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"防城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450602"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"港口区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450682"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450621"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"上思县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"450800"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"贵港市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450802"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"港北区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450803"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"港南区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450881"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"桂平市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450821"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"平南县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450882"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450804"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"覃塘区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"450300"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"桂林市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450303"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"叠彩区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450332"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"恭城瑶族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450327"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"灌阳县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450331"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"荔浦县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450322"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"临桂区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450323"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"灵川县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450328"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"龙胜各族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450330"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"平乐县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450333"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450305"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"七星区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450324"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"全州县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450304"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"象山区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450325"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"兴安县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450302"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"秀峰区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450311"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"雁山区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450321"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"阳朔县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450326"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"永福县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450329"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"资源县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"451200"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"河池市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451227"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"巴马瑶族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451229"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"大化瑶族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451224"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"东兰县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451228"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"都安瑶族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451223"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"凤山县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451226"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"环江毛南族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451202"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"金城江区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451225"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"罗城仫佬族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451221"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"南丹县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451282"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451222"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"天峨县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451281"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"宜州市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"451100"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"贺州市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451102"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"八步区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451123"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"富川瑶族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451119"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"平桂管理区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451124"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451121"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"昭平县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451122"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"钟山县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"451300"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"来宾市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451381"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"合山市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451324"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"金秀瑶族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451382"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451323"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"武宣县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451322"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"象州县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451321"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"忻城县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"451302"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"兴宾区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"450200"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"柳州市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450202"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"城中区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450205"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"柳北区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450222"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"柳城县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450221"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"柳江县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450204"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"柳南区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450223"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"鹿寨县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450227"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450224"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"融安县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450225"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"融水苗族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450226"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"三江侗族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450203"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"鱼峰区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"450100"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"南宁市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450126"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"宾阳县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450127"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"横县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450105"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"江南区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450108"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"良庆区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450123"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"隆安县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450124"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"马山县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450128"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450103"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"青秀区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450125"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"上林县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450122"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"武鸣区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450107"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"西乡塘区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450102"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"兴宁区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450109"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"邕宁区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"450700"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"钦州市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450721"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"灵山县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450722"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"浦北县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450723"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450703"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"钦北区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450702"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"钦南区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"450400"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"梧州市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450421"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"苍梧县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450481"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"岑溪市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450405"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"长洲区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450404"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"蝶山区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450406"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"龙圩区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450423"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"蒙山县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450482"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450422"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"藤县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450403"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"万秀区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"450900"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"玉林市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450981"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"北流市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450923"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"博白县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450903"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"福绵区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450922"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"陆川县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450982"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450921"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"容县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450924"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"兴业县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"450902"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"玉州区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}]
+}, {
+	<span class="hljs-string">"value"</span>: <span class="hljs-string">"810000"</span>,
+	<span class="hljs-string">"title"</span>: <span class="hljs-string">"香港特别行政区"</span>,
+	<span class="hljs-string">"children"</span>: [{
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"810200"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"九龙"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810205"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"观塘区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810204"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"黄大仙区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810201"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"九龙城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810203"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"深水埗区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810202"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"油尖旺区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"810100"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"香港岛"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810103"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"东区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810104"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"南区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810102"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"湾仔"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810101"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"中西区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"810300"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"新界"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810301"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"北区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810302"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"大埔区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810308"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"葵青区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810309"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"离岛区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810307"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"荃湾区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810303"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"沙田区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810306"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"屯门区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810304"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"西贡区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"810305"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"元朗区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}]
+}, {
+	<span class="hljs-string">"value"</span>: <span class="hljs-string">"330000"</span>,
+	<span class="hljs-string">"title"</span>: <span class="hljs-string">"浙江省"</span>,
+	<span class="hljs-string">"children"</span>: [{
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"330100"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"杭州市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330108"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"滨江区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330127"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"淳安县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330183"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"富阳区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330105"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"拱墅区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330182"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"建德市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330104"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"江干区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330185"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"临安市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330186"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330102"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"上城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330122"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"桐庐县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330106"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"西湖区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330103"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"下城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330109"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"萧山区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330110"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"余杭区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"330500"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"湖州市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330523"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"安吉县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330522"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"长兴县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330521"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"德清县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330503"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"南浔区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330524"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330502"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"吴兴区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"330400"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"嘉兴市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330481"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"海宁市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330424"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"海盐县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330421"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"嘉善县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330402"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"南湖区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330482"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"平湖市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330484"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330483"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"桐乡市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330411"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"秀洲区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"330700"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"金华市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330783"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"东阳市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330703"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"金东区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330781"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"兰溪市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330727"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"磐安县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330726"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"浦江县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330785"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330702"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"婺城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330723"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"武义县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330782"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"义乌市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330784"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"永康市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"331100"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"丽水市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331122"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"缙云县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331127"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"景宁畲族自治县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331102"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"莲都区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331181"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"龙泉市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331182"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331121"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"青田县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331126"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"庆元县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331124"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"松阳县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331123"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"遂昌县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331125"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"云和县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"330200"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"宁波市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330206"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"北仑区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330282"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"慈溪市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330283"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"奉化市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330203"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"海曙区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330205"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"江北区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330204"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"江东区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330226"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"宁海县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330284"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330225"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"象山县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330212"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"鄞州区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330281"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"余姚市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330211"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"镇海区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"330800"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"衢州市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330822"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"常山县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330881"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"江山市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330824"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"开化县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330802"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"柯城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330825"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"龙游县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330882"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330803"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"衢江区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"330600"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"绍兴市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330621"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"柯桥区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330684"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330682"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"上虞区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330683"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"嵊州市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330624"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"新昌县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330602"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"越城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330681"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"诸暨市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"331000"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"台州市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331003"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"黄岩区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331002"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"椒江区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331082"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"临海市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331004"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"路桥区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331083"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331022"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"三门县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331023"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"天台县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331081"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"温岭市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331024"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"仙居县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"331021"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"玉环县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"330300"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"温州市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330327"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"苍南县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330322"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"洞头县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330303"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"龙湾区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330302"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"鹿城区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330304"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"瓯海区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330326"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"平阳县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330383"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330381"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"瑞安市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330329"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"泰顺县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330328"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"文成县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330324"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"永嘉县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330382"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"乐清市"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}, {
+		<span class="hljs-string">"value"</span>: <span class="hljs-string">"330900"</span>,
+		<span class="hljs-string">"title"</span>: <span class="hljs-string">"舟山市"</span>,
+		<span class="hljs-string">"children"</span>: [{
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330921"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"岱山县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330902"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"定海区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330903"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"普陀区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330923"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"其它区"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}, {
+			<span class="hljs-string">"value"</span>: <span class="hljs-string">"330922"</span>,
+			<span class="hljs-string">"title"</span>: <span class="hljs-string">"嵊泗县"</span>,
+			<span class="hljs-string">"children"</span>: []
+		}]
+	}]
+}];
+</code></pre></div>
+  </div>
+  <a href="https://github.com/LANIF-UI/react-picker-address">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+         alt="Fork me on GitHub"
+         data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+  </a>
+  <script>FastClick.attach(document.body);</script>
+  <script src="../common.js?nowrap"></script>
+  <script src="district.js?nowrap"></script>
+</body>
+
+</html>
