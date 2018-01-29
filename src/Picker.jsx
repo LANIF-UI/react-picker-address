@@ -19,16 +19,46 @@ export default class Picker extends PureComponent {
   static defaultProps = {
     prefixCls: 'picker-address',
     tipText: '请选择',
-    value: [],
   };
 
   constructor(props) {
     super();
+    const { curIdx, selectedRows } = this.getSelectedRows(props);
     this.state = {
-      selectedRows: [{}],
-      curIdx: 0,
+      selectedRows,
+      curIdx,
       visible: !!props.visible,
     };
+  }
+
+  getSelectedRows = ({ value, dataSource }) => {
+    const selectedRows = [];
+    if (value && dataSource && value.length) {
+      const loop = (ds, level) => {
+        const v = value[level];
+        const rows = ds.filter(item => item.value === v);
+        if (rows.length) {
+          selectedRows.push(rows[0]);
+          if (rows[0].children && rows[0].children.length && value.length === level + 1) {
+            selectedRows.push({});
+          } else if (rows[0].children && rows[0].children.length) {
+            loop(rows[0].children, ++level);
+          }
+        }
+      };
+      loop(dataSource, 0);
+    }
+    if (!selectedRows.length) {
+      return {
+        curIdx: 0,
+        selectedRows: [{}],
+      };
+    } else {
+      return {
+        curIdx: selectedRows.length - 1,
+        selectedRows,
+      };
+    }
   }
 
   componentWillReceiveProps(nextProps) {
