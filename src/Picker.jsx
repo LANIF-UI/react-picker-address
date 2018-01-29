@@ -22,37 +22,57 @@ export default class Picker extends PureComponent {
     value: [],
   };
 
-  state = {
-    selectedRows: [{}],
-    curIdx: 0,
+  constructor(props) {
+    super();
+    this.state = {
+      selectedRows: [{}],
+      curIdx: 0,
+      visible: !!props.visible,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      visible: nextProps.visible,
+    });
   }
 
   componentDidMount() {
-    if (this.props.visible) {
+    if (this.state.visible) {
       this.htmlElement.classList.add('noscroll');
     }
   }
 
   componentDidUpdate() {
-    if (!this.props.visible) {
+    const { curIdx, visible } = this.state;
+
+    if (!visible) {
       this.htmlElement.classList.remove('noscroll');
     } else {
       if (!this.htmlElement.classList.contains('noscroll')) {
         this.htmlElement.classList.add('noscroll');
       }
 
-      const { selectedRows, curIdx } = this.state;
-      setTransform(this.refs.wrap.style, `translate3d(${(1 - selectedRows.length) * 100}vw, 0, 0)`);
+      setTransform(this.refs.wrap.style, `translate3d(-${(curIdx) * 100}vw, 0, 0)`);
 
-      const rect = this.refs.nav.children[curIdx].getBoundingClientRect();
+      const navItem = this.refs.nav.children[curIdx];
+      const rect = navItem.getBoundingClientRect();
       this.refs.navline.style.width = `${rect.width}px`;
       this.refs.navline.style.left = `${rect.left}px`;
-      this.refs.navline.style.bottom = `${this.refs.nav.clientHeight - (this.refs.nav.children[curIdx].offsetTop + 33)}px`;
+      this.refs.navline.style.bottom = `${this.refs.nav.clientHeight - (navItem.offsetTop + navItem.offsetHeight)}px`;
+
+      const activeItem = document.querySelector(`.${this.props.prefixCls}-main-nav-item.active`);
+      if (activeItem) {
+        activeItem.classList.remove('active');
+      }
+      setTimeout(() => {
+        document.querySelector(`#main-nav-item-${curIdx}`).classList.add('active');
+      }, 300);
     }
   }
 
   componentWillUnmount() {
-    if (this.props.visible) {
+    if (this.state.visible) {
       this.htmlElement.classList.remove('noscroll');
     }
   }
@@ -73,17 +93,21 @@ export default class Picker extends PureComponent {
     const { prefixCls } = this.props;
     const { selectedRows } = this.state;
     const row = selectedRows[level] || {};
+    const lists = level > 0 ? selectedRows[level - 1].children : ds;
 
+    if (!lists || !lists.length) {
+      return null;
+    }
     return (
       <div key={level} className={`${prefixCls}-main-body-item`}>
         <ul>
-          {ds.map((item) => (
+          {lists.map((item) => (
             <li
               key={item.value}
               className={
                 cx(`${prefixCls}-main-body-item-li`, { active: row.value === item.value })
               }
-              onTouchEnd={this.onSelectedRow(item, level)}
+              onClick={this.onSelectedRow(item, level)}
             >{item.title}</li>
           ))}
         </ul>
@@ -92,15 +116,29 @@ export default class Picker extends PureComponent {
   }
 
   onSelectedRow = (item, level) => () => {
-    const { selectedRows } = this.state;
-    if (selectedRows[level] && !selectedRows[level].value) {
-      selectedRows.splice(level, 1, item, {});
+    const { visible, curIdx } = this.state;
+    let { selectedRows } = this.state;
+
+    if (selectedRows[level]) {
+      const args = [level, 1, item];
+      if (item.children && item.children.length && curIdx + 1 >= selectedRows.length) {
+        args.push({});
+      } else if (curIdx + 1 < selectedRows.length) {
+        selectedRows = selectedRows.slice(0, curIdx + 1);
+        args.push({});
+      }
+      selectedRows.splice(...args);
+
+      const isEnd = !item.children || !item.children.length;
       this.setState({
         selectedRows: [...selectedRows],
-        curIdx: level + 1,
+        curIdx: isEnd ? level : level + 1,
+        visible: isEnd ? false : visible,
       });
-    } else {
-      return;
+    }
+
+    if (!item.children || !item.children.length) {
+      this.props.onChange(selectedRows.map(_item => _item.value).filter(_item => typeof _item !== 'undefined'), selectedRows);
     }
   }
 
@@ -110,9 +148,13 @@ export default class Picker extends PureComponent {
     });
   }
 
+  onNavBarMove = () => {
+    this.refs.navline.style.width = 0;
+  }
+
   render() {
-    const { selectedRows } = this.state;
-    const { className, prefixCls, visible, onClose, dataSource, tipText } = this.props;
+    const { selectedRows, visible } = this.state;
+    const { className, prefixCls, onClose, dataSource, tipText } = this.props;
     const classNames = cx(
       prefixCls,
       className,
@@ -127,19 +169,19 @@ export default class Picker extends PureComponent {
     }
 
     return (
-      <div className={classNames} onTouchStart={this.onClose}>
+      <div className={classNames} onClick={this.onClose}>
         <div className={`${prefixCls}-main`}>
           <div className={`${prefixCls}-main-title`}>
             <div className={`${prefixCls}-main-title-text`}>配送至</div>
-            <div className={`${prefixCls}-main-title-close`} onTouchStart={onClose}></div>
+            <div className={`${prefixCls}-main-title-close`} onClick={onClose}></div>
           </div>
           <div className={`${prefixCls}-main-nav`}>
-            <ul ref="nav">
+            <ul ref="nav" onTouchMove={this.onNavBarMove}>
               {
                 selectedRows.map((item, index) => (
                   item.value
-                  ? <li key={index} onTouchEnd={this.onSelectedNav(item, index)} className={`${prefixCls}-main-nav-item`}>{item.title}</li>
-                  : <li key={index} className={`${prefixCls}-main-nav-item`}>{tipText}</li>
+                  ? <li key={index} onClick={this.onSelectedNav(item, index)} id={`main-nav-item-${index}`} className={`${prefixCls}-main-nav-item`}>{item.title}</li>
+                  : <li key={index} id={`main-nav-item-${index}`} className={`${prefixCls}-main-nav-item`}>{tipText}</li>
                 ))
               }
             </ul>

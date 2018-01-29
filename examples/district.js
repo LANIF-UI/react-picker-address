@@ -1,5 +1,8 @@
 /* eslint-disable */
 export const district = [{
+	"value": "123123",
+	"title": "只有一级",
+}, {
 	"value": "340000",
 	"title": "安徽省",
 	"children": [{

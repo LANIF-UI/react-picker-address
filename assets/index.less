@@ -88,6 +88,15 @@ html.noscroll body {
       flex: none;
       position: relative;
       ul {
+        &::-webkit-scrollbar {
+        display: none;
+        }
+        display: flex;
+        overflow-y: scroll;
+        overflow-scrolling: touch;
+        -webkit-overflow-scrolling: touch;
+        padding: 5px 20px;
+        .clearfix();
         &:before {
           content: '';
           height: 1px;
@@ -98,7 +107,7 @@ html.noscroll body {
           transform: scaleY(0.5);
         }
         li {
-          display: inline-block;
+          flex: none;
           padding: .5em 0;
           text-align: center;
           font-size: 14px;
@@ -107,8 +116,20 @@ html.noscroll body {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          max-width: 80%;
+          max-width: 7em;
           user-select: none;
+          position: relative;
+          &::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            height: 1px;
+            background: transparent;
+          }
+          &.active::before {
+            background: @activeColor;
+          }
         }
       }
       &-active {
@@ -118,7 +139,6 @@ html.noscroll body {
         height: 1px;
         background: @activeColor;
         transition: left .3s ease-in;
-        transform: scaleY(0.5);
         width: 50px;
       }
     }
@@ -137,7 +157,7 @@ html.noscroll body {
         font-size: 14px;
         position: relative;
         float: left;
-        overflow: auto;
+        overflow-y: scroll;
         height: 100%;
         overflow-scrolling: touch;
         -webkit-overflow-scrolling: touch;
@@ -183,5 +203,19 @@ html.noscroll body {
   }
   to {
     z-index: 999;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    background: transparent;
+  }
+  80% {
+    opacity: .2;
+  }
+  to {
+    opacity: 1;
+    background: @activeColor;
   }
 }
