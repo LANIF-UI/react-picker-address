@@ -53,12 +53,11 @@ export default class Picker extends PureComponent {
         curIdx: 0,
         selectedRows: [{}],
       };
-    } else {
-      return {
-        curIdx: selectedRows.length - 1,
-        selectedRows,
-      };
     }
+    return {
+      curIdx: selectedRows.length - 1,
+      selectedRows,
+    };
   }
 
   componentWillReceiveProps(nextProps) {
