@@ -24,6 +24,7 @@
     ],
     "vars-on-top": [
       0
-    ]
+    ],
+    "no-nested-ternary": 0
   }
 }

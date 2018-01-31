@@ -98,6 +98,12 @@ ReactDOM.render(<PickerDemo />, container);
         <td></td>
       </tr>
       <tr>
+        <td>title</td>
+        <td>String | node</td>
+        <td>配送至</td>
+        <td>标题</td>
+      </tr>
+      <tr>
         <td>className</td>
         <td>String</td>
         <td></td>

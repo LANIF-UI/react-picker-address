@@ -14,11 +14,13 @@ export default class Picker extends PureComponent {
     tipText: PropTypes.string,
     value: PropTypes.array,
     onChange: PropTypes.func,
+    title: PropTypes.node,
   };
 
   static defaultProps = {
     prefixCls: 'picker-address',
     tipText: '请选择',
+    title: '配送至',
   };
 
   constructor(props) {
@@ -29,6 +31,60 @@ export default class Picker extends PureComponent {
       curIdx,
       visible: !!props.visible,
     };
+  }
+
+  touch = {}
+
+  onTouchStart = (e) => {
+    this.touch.startX = e.touches[0].clientX;
+    this.touch.startY = e.touches[0].clientY;
+    this.touch.moved = false;
+  }
+
+  onTouchMove = (e) => {
+    const { curIdx, selectedRows } = this.state;
+    const moveX = e.touches[0].clientX;
+    const moveY = e.touches[0].clientY;
+    const deltaX = moveX - this.touch.startX;
+    const deltaY = moveY - this.touch.startY;
+
+    if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+    const curOffsetWidth = -(curIdx * window.innerWidth);
+    const maxOffsetWidth = -((selectedRows.length - 1) * window.innerWidth);
+    const offsetWidth = Math.min(0, Math.max(maxOffsetWidth, curOffsetWidth + deltaX));
+    if (offsetWidth >= 0 || offsetWidth <= maxOffsetWidth) return;
+    if (!this.touch.moved) this.touch.moved = true;
+    e.preventDefault();
+
+    setTransform(this.refs.wrap.style, `translate3d(${offsetWidth}px, 0, 0)`);
+
+    const percent = Math.abs(deltaX / window.innerWidth);
+    this.touch.targetIdx = percent >= 0.1 ? (deltaX < 0) ? curIdx + 1 : curIdx - 1 : curIdx;
+  }
+
+  onTouchEnd = () => {
+    const { curIdx } = this.state;
+    if (!this.touch.moved) return;
+    if (this.touch.targetIdx !== curIdx) {
+      this.setState({
+        curIdx: this.touch.targetIdx,
+      });
+    }
+  }
+
+  bindEvent = () => {
+    const wrap = this.refs.wrap;
+    wrap.addEventListener('touchstart', this.onTouchStart, false);
+    wrap.addEventListener('touchmove', this.onTouchMove, false);
+    wrap.addEventListener('touchend', this.onTouchEnd, false);
+  }
+
+  unBindEvent = () => {
+    const wrap = this.refs.wrap;
+    wrap.removeEventListener('touchstart', this.onTouchStart, false);
+    wrap.removeEventListener('touchmove', this.onTouchMove, false);
+    wrap.removeEventListener('touchend', this.onTouchEnd, false);
   }
 
   getSelectedRows = ({ value, dataSource }) => {
@@ -70,6 +126,14 @@ export default class Picker extends PureComponent {
     if (this.state.visible) {
       this.htmlElement.classList.add('noscroll');
     }
+    this.bindEvent();
+  }
+
+  componentWillUnmount() {
+    if (this.htmlElement.classList.contains('noscroll')) {
+      this.htmlElement.classList.remove('noscroll');
+    }
+    this.unBindEvent();
   }
 
   componentDidUpdate() {
@@ -114,6 +178,7 @@ export default class Picker extends PureComponent {
     }
   }
 
+  // 异步加载数据
   loadData = () => {
 
   }
@@ -183,7 +248,7 @@ export default class Picker extends PureComponent {
 
   render() {
     const { selectedRows, visible } = this.state;
-    const { className, prefixCls, onClose, dataSource, tipText } = this.props;
+    const { className, prefixCls, onClose, dataSource, tipText, title } = this.props;
     const classNames = cx(
       prefixCls,
       className,
@@ -201,7 +266,7 @@ export default class Picker extends PureComponent {
       <div className={classNames} onClick={this.onClose}>
         <div className={`${prefixCls}-main`}>
           <div className={`${prefixCls}-main-title`}>
-            <div className={`${prefixCls}-main-title-text`}>配送至</div>
+            <div className={`${prefixCls}-main-title-text`}>{title}</div>
             <div className={`${prefixCls}-main-title-close`} onClick={onClose}></div>
           </div>
           <div className={`${prefixCls}-main-nav`}>
