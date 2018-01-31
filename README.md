@@ -24,6 +24,7 @@ react 仿京东手机端地址选择组件.
 
 [![react-picker-address](https://nodei.co/npm/react-picker-address.png)](https://npmjs.org/package/react-picker-address)
 
+![](https://ucarecdn.com/5f70fb25-ad96-4531-a91d-f6c879abfe0b/reactaddresspicker.gif)
 ## Usage
 
 ```js
