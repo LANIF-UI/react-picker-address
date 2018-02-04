@@ -202,7 +202,7 @@ export default class Picker extends PureComponent {
                 cx(`${prefixCls}-main-body-item-li`, { active: row.value === item.value })
               }
               onClick={this.onSelectedRow(item, level)}
-            >{item.title}</li>
+            ><span>{item.title}</span><i /></li>
           ))}
         </ul>
       </div>

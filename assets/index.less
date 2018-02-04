@@ -175,6 +175,16 @@ html.noscroll body {
             user-select: none;
             &.active {
               color: @activeColor;
+              span + i{
+                position: absolute;
+                border-width: 0 2px 2px 0;
+                border-style: solid;
+                height: 13px;
+                width: 5px;
+                margin-left: 10px;
+                margin-top: -1px;
+                transform: rotate(45deg);
+              }
             }
           }
         }
