@@ -220,6 +220,17 @@ html.noscroll body {
 .picker-address-main-body-item ul li.active {
   color: #e53935;
 }
+.picker-address-main-body-item ul li.active span + i {
+  position: absolute;
+  border-width: 0 2px 2px 0;
+  border-style: solid;
+  height: 13px;
+  width: 5px;
+  margin-left: 10px;
+  margin-top: -1px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
 .picker-address ul,
 .picker-address li {
   list-style: none;
